@@ -6,7 +6,7 @@
 
 
 // sets the base url of the api
-const BASE_URL = "http://127.0.0.1:5000"; // e.g., "http://localhost:5000"
+const BASE_URL = "http://54.167.71.175:5000/"; // e.g., "http://localhost:5000"
 
 //Hits the Login endpoint
 export const getLogin = async (username, password) => {
