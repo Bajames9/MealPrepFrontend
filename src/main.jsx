@@ -1,5 +1,5 @@
 import { HashRouter, Routes, Route } from 'react-router-dom'
-import {createRoot} from "react-dom/client.d.ts";
+import { createRoot } from "react-dom/client";
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
