@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+/*
+Used to define a color pallet For website with tailwind css
+*/
+@theme {
+    --color-lightBluePC: #90A3B9;
+    --color-darkBluePC: #011936;
+    --color-lightGreenPC: #C0DFA1;
+    --color-lightGrayPC: #465362;
+    --color-overlayPC: #5E6F6F;
+}
+/*
+Used to define color pallet for Normal css
+*/
+:root {
+    --color-lightBluePC: #90A3B9;
+    --color-darkBluePC: #011936;
+    --color-lightGreenPC: #C0DFA1;
+    --color-lightGrayPC: #465362;
+}
