@@ -5,12 +5,8 @@ phases:
     runtime-versions:
       nodejs: 22
     commands:
-      - echo "Node version:"
-      - node -v
-      - echo "Upgrading npm..."
       - npm install -g npm@latest
-      - npm -v
-      - npm ci
+      - npm install
 
   build:
     commands:
