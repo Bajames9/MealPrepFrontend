@@ -8,8 +8,6 @@ phases:
       - echo "Installing dependencies..."
       - npm ci
 
-
-
   build:
     commands:
       - echo "Building the React app..."
@@ -18,11 +16,11 @@ phases:
   post_build:
     commands:
       - echo "Build completed on $(date)"
-      - echo "Listing contents of dist folder:"
-      - ls -al dist
+      - echo "Listing contents of build folder:"
+      - ls -al build
 
 artifacts:
   files:
     - '**/*'
-  base-directory: dist
+  base-directory: build
   discard-paths: no
