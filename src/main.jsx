@@ -85,6 +85,7 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById('root')).render(
+
     <StrictMode>
         <FavoritesProvider>
             <RouterProvider router={router} />
