@@ -10,17 +10,17 @@ phases:
 
   build:
     commands:
-      - echo "Building the React app..."
+      - echo "Building the Vite app..."
       - npm run build
 
   post_build:
     commands:
       - echo "Build completed on $(date)"
-      - echo "Listing contents of build folder:"
-      - ls -al build
+      - echo "Listing contents of dist folder:"
+      - ls -al dist
 
 artifacts:
   files:
     - '**/*'
-  base-directory: build
+  base-directory: dist
   discard-paths: no
