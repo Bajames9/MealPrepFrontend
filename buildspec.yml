@@ -6,8 +6,8 @@ phases:
       nodejs: 22
     commands:
       - echo "Installing dependencies..."
-      - npm install -g npm@latest
-      - npm install --include=dev
+      - npm ci
+
 
   build:
     commands:
@@ -18,8 +18,7 @@ phases:
     commands:
       - echo "Build completed on $(date)"
       - echo "Listing contents of dist folder:"
-      - ls -al dist || echo "dist folder not found!"
-      - pwd
+      - ls -al dist
 
 artifacts:
   files:
