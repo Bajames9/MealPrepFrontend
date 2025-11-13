@@ -8,5 +8,5 @@ export default defineConfig({
     build: {
         outDir: 'dist',   // ensures matches buildspec.yml
     },
-    base: './',          // important for S3 hosting
+    base: '/',          // important for S3 hosting
 })
