@@ -1,5 +1,7 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import FilterButton from "./FilterButton.jsx";
+import React from "react";
+
 
 /**
  * Component used to generate Search bar

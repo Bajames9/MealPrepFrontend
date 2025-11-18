@@ -84,7 +84,7 @@ function Favorites() {
                             <p className="text-lightGreenPC text-2xl mb-6">
                                 {recipes.length} {recipes.length === 1 ? 'recipe' : 'recipes'} saved
                             </p>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-90 gap-y-8">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-0 gap-y-8">
                                 {recipes.map((recipe) => (
                                     <RecipeCard
                                         key={recipe.id}
@@ -92,6 +92,7 @@ function Favorites() {
                                         src={recipe.images}
                                         title={recipe.name}
                                         id={recipe.id}
+                                        size="small"
                                     />
                                 ))}
                             </div>

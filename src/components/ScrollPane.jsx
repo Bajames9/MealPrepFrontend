@@ -48,10 +48,14 @@ function ScrollPane({children , title}){
                 </div>
 
             </div>
-            <div className="h-75 flex flex-row gap-4  transition-transform duration-700 ease-in-out" style={{
-                width: `${(children?.length ?? 0) * 400}px`,
-                transform: `translateX(${scrollX+100}px)`,
-            }}>
+            <div
+  data-testid="scroll-content"
+  className="h-75 flex flex-row gap-4 transition-transform duration-700 ease-in-out"
+  style={{
+    width: `${(children?.length ?? 0) * 400}px`,
+    transform: `translateX(${scrollX + 100}px)`,
+  }}
+>
                 {children}
             </div>
 

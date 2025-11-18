@@ -9,7 +9,7 @@ import { StarIcon as StarSolid } from "@heroicons/react/24/solid";
  */
 function Ratings({ rating }) {
     return (
-        <div className="flex">
+       <div className="flex" data-testid="ratings">
             {[1, 2, 3, 4, 5].map((num) => {
                 if (num <= Math.floor(rating)) {
                     // full stars

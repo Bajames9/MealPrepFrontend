@@ -64,10 +64,13 @@ function FilterButton({
     };
 
     return (
-        <button
+        <div
+            role="button"
+            data-testid="filter-button"
             onClick={() => setExpanded(true)}
             onMouseLeave={() => setExpanded(false)}
-            className="w-1/30 h-15 shadow-xl bg-lightGreenPC rounded-2xl hover:bg-overlayPC z-20 justify-center">
+            className="w-1/30 h-15 shadow-xl bg-lightGreenPC rounded-2xl hover:bg-overlayPC z-20 justify-center cursor-pointer"
+        >
             <Bars3CenterLeftIcon className="w-10 h-10 text-gray-700 transform" />
             <div className="h-10 w-5/30 absolute transform -translate-x-12/30" />
 
@@ -75,7 +78,8 @@ function FilterButton({
                 className={`w-5/30 bg-lightGreenPC rounded-2xl drop-shadow-2xl absolute transform -translate-x-12/30 translate-y-8 transition-all duration-500 ease-in-out`}
                 style={{
                     height: expanded ? "80%" : "0%",
-                    opacity: expanded ? "100%" : "0%"
+                    opacity: expanded ? "100%" : "0%",
+                    pointerEvents: expanded ? "auto" : "none"
                 }}
             >
                 {/* Ingredients Filter */}
@@ -120,7 +124,7 @@ function FilterButton({
                     <span className="text-sm">Lists</span>
                 </ToggleButton>
             </div>
-        </button>
+        </div>
     );
 }
 

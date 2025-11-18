@@ -14,7 +14,7 @@ import { useFavorites } from "../contexts/FavoritesContext.jsx";
  * @returns {React.JSX.Element}
  * @constructor
  */
-function RecipeCard({ className, src, title, id }) {
+function RecipeCard({ className, src, title, id, size = "normal" }) {
     const navigate = useNavigate();
     const { isFavorited, toggleFavorite } = useFavorites();
     const [isHovered, setIsHovered] = useState(false);
@@ -23,9 +23,15 @@ function RecipeCard({ className, src, title, id }) {
     const url = src;
     const favorited = isFavorited(parseInt(id));
 
-    const navigateToRecipe = () => {
-        navigate(`/recipe/${id}`);
+    // Size classes
+    const sizeClasses = {
+        normal: "h-75 w-100",
+        small: "h-56 w-75"  // Smaller for grids
     };
+
+    // const navigateToRecipe = () => {
+    //     navigate(`/recipe/${id}`);
+    // };
 
     const handleFavoriteClick = async (e) => {
         e.stopPropagation(); // Prevent navigating to recipe
@@ -43,17 +49,17 @@ function RecipeCard({ className, src, title, id }) {
 
     return (
         <div
-            className={`flex flex-row h-75 w-100 rounded-2xl overflow-hidden relative shadow-xl ${className}`}
+            className={`flex flex-row ${sizeClasses[size]} rounded-2xl overflow-hidden relative shadow-xl ${className}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
             {/* Main clickable area - recipe image and title */}
-            <button onClick={navigateToRecipe} className="w-8/10 h-full relative">
+            <a href={`/recipe/${id}`} className="w-8/10 h-full relative block cursor-pointer">
                 <img alt={title} src={url} className="h-full w-full object-cover" />
                 <div className="absolute w-full inset-0 bg-gradient-to-t from-transparent to-black/50">
                     <p className="text-white text-2xl font-bold flex flex-row justify-center m-2">{title}</p>
                 </div>
-            </button>
+            </a>
 
             {/* Blue strip on the right with heart button */}
             <div className="w-2/10 h-full bg-[var(--color-lightGrayPC)] flex items-center justify-center relative">
