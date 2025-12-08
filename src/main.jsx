@@ -16,6 +16,8 @@ import SearchPage from "./pages/SearchPage.jsx";
 import Favorites from "./pages/Favorites.jsx";
 import { FavoritesProvider } from "./contexts/FavoritesContext.jsx";
 import PublicListsSearchPage from "./pages/PublicListsSearchPage.jsx";
+import RecipePageNew from "./pages/RecipePageNew.jsx";
+import Admin from "./pages/Admin.jsx";
 
 /**
  * Main Entry point for code sets up paths for recipe pages
@@ -66,7 +68,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/recipe/:id",
-        element: <RecipePage />,
+        element: <RecipePageNew />,
 
     },
     {
@@ -77,6 +79,10 @@ const router = createBrowserRouter([
     {
         path: '/lists/search/:term',
         element: <PublicListsSearchPage />,
+    },
+    {
+        path: '/admin',
+        element: <Admin/>,
     },
 
 

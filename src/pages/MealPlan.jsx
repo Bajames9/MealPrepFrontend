@@ -1,4 +1,6 @@
 import SideBar from "../components/SideBar.jsx";
+import MealPlanDay from "../components/MealPlanDay.jsx";
+import CalendarComponent from "../components/CalendarComponent.jsx";
 
 
 /**
@@ -11,9 +13,10 @@ function MealPlan() {
         <div className="w-full h-full  flex ">
             <SideBar    className="font-black bg-darkBluePC/65 absolute z-10"
             />
-            <div className="flex justify-center items-center w-full">
-                <p className="font-bold items-center text-white text-9xl">Meal Plan</p>
+            <div className="flex justify-center items-center w-full h-full">
+                <CalendarComponent className="transform translate-x-30"/>
             </div>
+
 
         </div>
     </div>

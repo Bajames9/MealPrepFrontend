@@ -19,6 +19,7 @@ function Settings() {
     // used to display users name
     const [username, setUsername] = useState('');
     const [update, setUpdate] = useState('');
+    const [admin, setAdmin] = useState(false)
 
     //makes sure user is logged in if not redirects to login page
     useEffect(() => {
@@ -27,6 +28,9 @@ function Settings() {
                 const loggedIn = await whoAmI();
                 if (loggedIn.success) {
                     setUsername(loggedIn.user);
+                    if (loggedIn.admin){
+                        setAdmin(true)
+                    }
                 } else {
                     alert("Not Logged In As User")
                     navigate("/")
@@ -117,6 +121,9 @@ function Settings() {
         }
     };
 
+    const handleAdminClick = () => {
+        navigate('/admin')
+    }
 
 
     // used for styling of multiple buttons to make code cleaner
@@ -143,17 +150,11 @@ function Settings() {
                 </div>
                 <hr className="w-5/8 border-2 border-darkBluePC rounded" />
                 {/*Buttons for other  settings actions Most are placeholders currently have Logout and Delete added*/}
-                <div className="w-4/8 h-4/9 flex flex-row flex-wrap gap-4">
+                <div className="w-4/8 h-4/9 flex flex-row flex-wrap gap-4 justify-center items-center">
                     <button onClick={logout} className="w-1/6 h-2/6 shadow-xl bg-lightGreenPC rounded-lg text-4xl hover:text-lightGreenPC hover:bg-overlayPC ">Logout</button>
                     <button onClick={handleAccountDeletion} className="w-1/6 h-2/6 shadow-xl bg-lightGreenPC rounded-lg text-4xl hover:text-lightGreenPC hover:bg-overlayPC ">Delete Account</button>
-                    <button className="w-1/6 h-2/6 shadow-xl bg-lightGreenPC rounded-lg text-4xl hover:text-lightGreenPC hover:bg-overlayPC "></button>
-                    <button className="w-1/6 h-2/6 shadow-xl bg-lightGreenPC rounded-lg text-4xl hover:text-lightGreenPC hover:bg-overlayPC "></button>
-                    <button className="w-1/6 h-2/6 shadow-xl bg-lightGreenPC rounded-lg text-4xl hover:text-lightGreenPC hover:bg-overlayPC "></button>
-                    <button className="w-1/6 h-2/6 shadow-xl bg-lightGreenPC rounded-lg text-4xl hover:text-lightGreenPC hover:bg-overlayPC "></button>
-                    <button className="w-1/6 h-2/6 shadow-xl bg-lightGreenPC rounded-lg text-4xl hover:text-lightGreenPC hover:bg-overlayPC "></button>
-                    <button className="w-1/6 h-2/6 shadow-xl bg-lightGreenPC rounded-lg text-4xl hover:text-lightGreenPC hover:bg-overlayPC "></button>
-                    <button className="w-1/6 h-2/6 shadow-xl bg-lightGreenPC rounded-lg text-4xl hover:text-lightGreenPC hover:bg-overlayPC "></button>
-                    <button className="w-1/6 h-2/6 shadow-xl bg-lightGreenPC rounded-lg text-4xl hover:text-lightGreenPC hover:bg-overlayPC "></button>
+                    {admin && <button onClick={handleAdminClick} className="w-1/6 h-2/6 shadow-xl bg-lightGreenPC rounded-lg text-4xl hover:text-lightGreenPC hover:bg-overlayPC ">Admin</button>}
+
 
 
                 </div>

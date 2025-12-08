@@ -200,50 +200,81 @@ function RecipePage() {
 
     // formats recipe Instructions
     function parseInstructions(instructionString) {
-        if (Array.isArray(instructionString)) {
-            return instructionString;
-        }
         if (!instructionString) {
             return [];
         }
 
-        return instructionString.split(/\s*,\s*/).filter(item => item.trim() !== "");
+        // *** FIX: Use the robust parseList function for instructions ***
+        return parseList(instructionString);
     }
 
 
-    // Insures List is in the correct format
-    function parseList(listString) {
-        if (Array.isArray(listString)) {
-            return listString.map(item => (item === "NA" || item === "null" ? null : item));
+    function parseList(str) {
+        if (!str) return [];
+
+        // If already an array, just return it
+        if (Array.isArray(str)) return str;
+
+        // Try JSON.parse if the string looks like a JSON array
+        if (typeof str === "string" && str.trim().startsWith("[")) {
+            try {
+                return JSON.parse(str).map(v => v.trim());
+            } catch {
+                // fallback to comma-split
+            }
         }
-        if (!listString) {
-            return [];
-        }
-        // Assuming string is now a comma-separated list of items
-        const items = listString.split(/\s*,\s*/);
-        return items.map(item => (item === "NA" || item === "null" ? null : item.trim()));
+
+        // Otherwise treat it as comma-separated list
+        return str.split(",").map(v => v.trim()).filter(v => v.length > 0);
+    }
+
+
+
+    function cleanValue(v) {
+        if (Array.isArray(v)) return v.join(" ").trim(); // flatten arrays
+        if (typeof v === "string") return v.trim();
+        return "";
     }
 
 
     // Formats the ingredients and quantity together to be displayed as bullet list
-    function combineIngredients(quantities, ingredients) {
-        const qArr = parseList(quantities);
-        const iArr = parseList(ingredients);
-        const length = Math.max(qArr.length, iArr.length);
+    function combineIngredients(quantities, ingredients, parts) {
+        const qArr = parseList(quantities).map(cleanValue);
+        const iArr = parseList(ingredients).map(cleanValue);
+        const pArr = parseList(parts).map(cleanValue);
 
+        const length = Math.max(qArr.length, iArr.length, pArr.length);
         const combined = [];
+
         for (let i = 0; i < length; i++) {
-            const quantity = qArr[i];
-            const ingredient = iArr[i];
-            if (!ingredient) continue; // skip if ingredient missing
+            const quantity = qArr[i] && qArr[i] !== "NA" ? qArr[i] : "";
+            const ingredientTemplate = iArr[i] || "";
+            const part = pArr[i] || "";
+
+            if (!ingredientTemplate || !part) continue;
+
+            // Insert part into template
+            const ingredient = ingredientTemplate.replace("$template1$", part);
+
+            // Remove leftover commas or brackets just in case
+            const cleanedIngredient = ingredient
+                .replace(/[\[\]]/g, "")
+                .replace(/\s*,\s*/g, ", ")
+                .trim();
+
+            const finalString = `${quantity ? quantity + " " : ""}${cleanedIngredient}`;
+
             combined.push({
-                // Check for null or "NA" string from the parsed list
-                quantity: quantity && quantity !== "NA" ? quantity : "",
-                ingredient,
+                quantity,
+                ingredient: cleanedIngredient,
+                full: finalString,
             });
         }
+
         return combined;
     }
+
+
 
     //React Code
     return <div className="bg-lightBluePC w-full h-full">
@@ -316,6 +347,9 @@ function RecipePage() {
                     </div>
                     <hr className=" border-darkBluePC w-1/2" />
                     {/*Displays the list of instructions and ingredients in a side by side list*/}
+
+
+
                     <div className="flex flex-row justify-between w-1/2 text-2xl text-white">
                         {/* Instructions List (Ordered) */}
                         <ol className="list-decimal list-inside text-white w-1/2">
@@ -337,30 +371,30 @@ function RecipePage() {
                                 </div>
                             ) : (
                                 <ul className="space-y-2">
-                                    {combineIngredients(recipe.quantities, recipe.ingredients).map((item, index) => {
-                                        const fullIngredient = `${item.quantity && item.quantity !== "-" ? `${item.quantity} ` : ""}${item.ingredient}`;
+                                    {combineIngredients(recipe.quantities, recipe.ingredients, recipe.ingredientsParts).map((item, index) => {
                                         const isMissing = isIngredientMissing(item.ingredient);
 
                                         return (
                                             <li
                                                 key={index}
-                                                className={`flex items-center justify-between p-2 rounded-lg transition-colors ${isMissing
-                                                    ? 'bg-red-500/20 hover:bg-red-500/30'
-                                                    : 'bg-lightGreenPC/20 hover:bg-lightGreenPC/30'
-                                                    }`}
+                                                className={`flex items-center justify-between p-2 rounded-lg transition-colors ${
+                                                    isMissing
+                                                        ? 'bg-red-500/20 hover:bg-red-500/30'
+                                                        : 'bg-lightGreenPC/20 hover:bg-lightGreenPC/30'
+                                                }`}
                                             >
                                                 <div className="flex items-center gap-2 flex-1">
                                                     {isMissing ? (
-                                                        <div className="w-6 h-6 flex-shrink-0" /> // Empty space for alignment
+                                                        <div className="w-6 h-6 flex-shrink-0" />
                                                     ) : (
                                                         <CheckCircleIcon className="w-6 h-6 text-lightGreenPC flex-shrink-0" />
                                                     )}
+
                                                     <span className={isMissing ? 'text-red-200' : 'text-white'}>
-                                                        {fullIngredient}
-                                                    </span>
+                                                                     {item.full}
+                                            </span>
                                                 </div>
 
-                                                {/* Add to Grocery List button - only show for missing items */}
                                                 {isMissing && (
                                                     <button
                                                         className="p-2 bg-lightGreenPC/50 text-white rounded-lg hover:bg-lightGreenPC/70 transition-colors cursor-not-allowed opacity-50 flex-shrink-0"
@@ -382,6 +416,11 @@ function RecipePage() {
                                 </p>
                             )}
                         </div>
+
+
+
+
+
                     </div>
                 </div>
             </div>

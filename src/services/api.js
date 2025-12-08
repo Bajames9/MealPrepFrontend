@@ -6,7 +6,7 @@
 
 
 // sets the base url of the api
-const BASE_URL = "http://54.167.71.175:5000/"; // e.g., "http://localhost:5000"
+const BASE_URL = "http://localhost:5000"  //"http://54.167.71.175:5000/"; // e.g., "http://localhost:5000"
 
 //Hits the Login endpoint
 export const getLogin = async (username, password) => {
@@ -330,9 +330,37 @@ export const updatePantryItems = async (items) => {
 
 
 
+export const getGroceryItems = async () => {
+    try {
+        const response = await fetch(`${BASE_URL}/api/grocery/items`, {
+            method: "GET",
+            credentials: "include",
+        });
 
+        return await response.json();
+    } catch (error) {
+        console.error("Get grocery items request failed:", error);
+        return { success: false, message: "Network or server error" };
+    }
+};
 
+export const updateGroceryItems = async (items) => {
+    try {
+        const response = await fetch(`${BASE_URL}/api/grocery/items`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({ items }), // Bailey expects: {"items": [...]}
+        });
 
+        return await response.json();
+    } catch (error) {
+        console.error("Update pantry items request failed:", error);
+        return { success: false, message: "Network or server error" };
+    }
+};
 
 
 
@@ -682,6 +710,261 @@ export const getMissingIngredients = async (recipeId) => {
         return await response.json();
     } catch (error) {
         console.error("Get missing ingredients request failed:", error);
+        return { success: false, message: "Network or server error" };
+    }
+};
+
+
+// -- MEAL PLAN --
+
+export const addMealPlan = async (mealDate, mealType, recipeId) => {
+    try {
+        const response = await fetch(`${BASE_URL}/api/meal_plan/add`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({
+                mealDate,
+                mealType,
+                recipeId
+            }),
+        });
+
+        return await response.json();
+    } catch (error) {
+        console.error("Add Meal Plan request failed:", error);
+        return { success: false, message: "Network or server error" };
+    }
+};
+
+export const getMealPlan = async (mealDate) => {
+    try {
+        const url = mealDate
+            ? `${BASE_URL}/api/meal_plan/get?mealDate=${mealDate}`
+            : `${BASE_URL}/api/meal_plan/get`;
+
+        const response = await fetch(url, {
+            method: "GET",
+            credentials: "include",
+        });
+
+        return await response.json();
+    } catch (error) {
+        console.error("Get Meal Plan request failed:", error);
+        return { success: false, message: "Network or server error" };
+    }
+};
+
+export const removeMealPlan = async (mealDate, mealType) => {
+    try {
+        const response = await fetch(`${BASE_URL}/api/meal_plan/delete`, {
+            method: "DELETE",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ mealDate, mealType })
+        });
+
+        return await response.json();
+    } catch (error) {
+        console.error("Remove Meal Plan request failed:", error);
+        return { success: false, message: "Network or server error" };
+    }
+
+};
+
+export const getUserMadeRecipes = async () => {
+    try {
+        const response = await fetch(`${BASE_URL}/api/user_recipes/get`, {
+            method: "GET",
+            credentials: "include",
+        });
+
+        return await response.json();
+    } catch (error) {
+        console.error("Get user recipes failed:", error);
+        return { success: false, message: "Network or server error" };
+    }
+};
+
+
+
+
+/**
+ * Add a new user-made recipe
+ * @param {Object} recipeData - Full recipe JSON object
+ */
+export const addUserMadeRecipe = async (recipeData) => {
+    try {
+        const response = await fetch(`${BASE_URL}/api/user_recipes/add`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify(recipeData),
+        });
+
+        return await response.json();
+    } catch (error) {
+        console.error("Add recipe failed:", error);
+        return { success: false, message: "Network or server error" };
+    }
+};
+
+
+/**
+ * Update an existing user-made recipe
+ * @param {number} recipeId - ID from database
+ * @param {Object} updatedRecipe - Updated recipe JSON
+ */
+export const updateUserMadeRecipe = async (recipeId, updatedRecipe) => {
+    try {
+        const response = await fetch(`${BASE_URL}/api/user_recipes/update/${recipeId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify(updatedRecipe),
+        });
+
+        return await response.json();
+    } catch (error) {
+        console.error("Update recipe failed:", error);
+        return { success: false, message: "Network or server error" };
+    }
+};
+
+
+/**
+ * Delete a user-made recipe
+ * @param {number} recipeId - Recipe ID
+ */
+export const deleteUserMadeRecipe = async (recipeId) => {
+    try {
+        const response = await fetch(`${BASE_URL}/api/user_recipes/delete/${recipeId}`, {
+            method: "DELETE",
+            credentials: "include",
+        });
+
+        return await response.json();
+    } catch (error) {
+        console.error("Delete recipe failed:", error);
+        return { success: false, message: "Network or server error" };
+    }
+};
+
+/**
+ * Mark recipe as submitted
+ * @param {number} recipeId
+ */
+export const submitUserRecipe = async (recipeId) => {
+    try {
+        const response = await fetch(`${BASE_URL}/api/user_recipes/submit/${recipeId}`, {
+            method: "PUT",
+            credentials: "include",
+        });
+
+        return await response.json();
+    } catch (error) {
+        console.error("Submit recipe failed:", error);
+        return { success: false, message: "Network or server error" };
+    }
+};
+
+
+/**
+ * Get ALL saved user-made recipes (drafts + submitted)
+ */
+export const getAllUserSavedRecipes = async () => {
+    try {
+        const response = await fetch(`${BASE_URL}/api/user_recipes/get/all`, {
+            method: "GET",
+            credentials: "include",
+        });
+
+        return await response.json();
+    } catch (error) {
+        console.error("Get all saved recipes failed:", error);
+        return { success: false, message: "Network or server error" };
+    }
+};
+
+// Example of the new service function to add to api.js
+export const unsubmitUserRecipe = async (recipeId) => {
+    if (!recipeId) return { success: false, message: "Recipe ID is missing" };
+    try {
+        const response = await fetch(`${BASE_URL}/api/user_recipes/unsubmit/${recipeId}`, {
+            method: "PUT",
+            credentials: "include",
+        });
+        return await response.json();
+    } catch (error) {
+        console.error("Unsubmit recipe failed:", error);
+        return { success: false, message: "Network or server error" };
+    }
+};
+
+
+/**
+ * Get ALL submitted user-made recipes (ADMIN ONLY)
+ */
+export const getAllSubmittedUserRecipesAdmin = async () => {
+    try {
+        const response = await fetch(`${BASE_URL}/api/user_recipes/get/submitted/all`, {
+            method: "GET",
+            credentials: "include", // ✅ required for session auth
+        });
+
+        return await response.json();
+    } catch (error) {
+        console.error("Admin fetch submitted recipes failed:", error);
+        return { success: false, message: "Network or server error" };
+    }
+};
+
+
+/**
+ * Approve a user-submitted recipe and add it to the main recipes table
+ * Admin-only action
+ * @param {number} userRecipeId - ID of the user-submitted recipe
+ */
+export const approveUserRecipe = async (userRecipeId) => {
+    if (!userRecipeId) {
+        console.error("No recipe ID provided for approval");
+        return { success: false, message: "No recipe selected" };
+    }
+
+    try {
+        const response = await fetch(`${BASE_URL}/api/user_recipes/admin/approve_recipe/${userRecipeId}`, {
+            method: "POST",
+            credentials: "include", // include cookies/session
+        });
+
+        return await response.json();
+    } catch (error) {
+        console.error("Approve recipe failed:", error);
+        return { success: false, message: "Network or server error" };
+    }
+};
+
+
+/**
+ * Fetches a single user-made recipe by its ID.
+ * @param {number} recipeId - The ID of the user recipe to fetch.
+ */
+export const getUserRecipeById = async (recipeId) => {
+    if (!recipeId) return { success: false, message: "Recipe ID is missing" };
+    try {
+        const response = await fetch(`${BASE_URL}/api/user_recipes/get/${recipeId}`, {
+            method: "GET",
+            credentials: "include",
+        });
+        return await response.json();
+    } catch (error) {
+        console.error(`Get recipe by ID ${recipeId} failed:`, error);
         return { success: false, message: "Network or server error" };
     }
 };

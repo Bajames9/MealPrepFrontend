@@ -1,4 +1,9 @@
 import SideBar from "../components/SideBar.jsx";
+import Ratings from "../components/Ratings.jsx";
+import RecipeInstructions from "../components/recipeInstructions.jsx";
+import RecipeIngredients from "../components/recipeIngredients.jsx";
+import React, {useState} from "react";
+import RecipeSubmissionForm from "../components/RecipeSubmissionForm.jsx";
 
 
 /**
@@ -6,14 +11,29 @@ import SideBar from "../components/SideBar.jsx";
  * @returns {React.JSX.Element}
  * @constructor
  */
+
+
+
+
+
 function CreateRecipe(){
+
+
+
+
+
+
     return <div className="bg-lightBluePC w-full h-screen">
         <div className="w-full h-full  flex ">
-            <SideBar    className="font-black bg-darkBluePC/65 absolute z-10"
-            />
+            <SideBar    className="font-black bg-darkBluePC/65 absolute z-10"/>
             <div className="flex justify-center items-center w-full">
-                <p className="font-bold items-center text-white text-9xl">New Recipe</p>
+
+                <RecipeSubmissionForm
+
+                />
+
             </div>
+
 
         </div>
     </div>

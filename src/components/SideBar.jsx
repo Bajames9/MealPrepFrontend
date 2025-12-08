@@ -1,5 +1,6 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
+import {whoAmI} from "../services/api.js";
 
 /**
  * Main sidebar displayed on most pages to allow for navigation
@@ -38,6 +39,8 @@ const SideBar = ({ className }) => {
     }
 
 
+
+
     return (
 
 
@@ -58,6 +61,9 @@ const SideBar = ({ className }) => {
                 <button onClick={handleListClick} className={buttonClass}>My Lists</button>
                 <button onClick={handleNewRecipeClick} className={buttonClass}>New Recipe</button>
                 <button onClick={handleSettingsClick} className={buttonClass}>Settings</button>
+
+
+
             </div>
         </div>
     )
