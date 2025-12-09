@@ -7,13 +7,13 @@ import { useState } from "react";
  * Now supports Ingredients, Recipe Name, and Lists filters
  */
 function FilterButton({
-    onToggleIngredients,
-    isIngredientsSelected,
-    onToggleRecipeName,
-    isRecipeNameSelected,
-    onToggleLists,
-    isListsSelected
-}) {
+                          onToggleIngredients,
+                          isIngredientsSelected,
+                          onToggleRecipeName,
+                          isRecipeNameSelected,
+                          onToggleLists,
+                          isListsSelected
+                      }) {
     const [expanded, setExpanded] = useState(false);
 
     const handleIngredientToggle = () => {
@@ -75,7 +75,7 @@ function FilterButton({
             <div className="h-10 w-5/30 absolute transform -translate-x-12/30" />
 
             <div
-                className={`w-5/30 bg-lightGreenPC rounded-2xl drop-shadow-2xl absolute transform -translate-x-12/30 translate-y-8 transition-all duration-500 ease-in-out`}
+                className={`flex flex-col items-center w-5/30 bg-lightGreenPC rounded-2xl drop-shadow-2xl absolute transform -translate-x-12/30 translate-y-8 transition-all duration-500 ease-in-out`}
                 style={{
                     height: expanded ? "80%" : "0%",
                     opacity: expanded ? "100%" : "0%",
