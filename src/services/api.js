@@ -7,9 +7,7 @@
 
 // sets the base url of the api
 // api.js
-const BASE_URL = process.env.NODE_ENV === "production"
-    ? "http://flask-api-env.eba-pvremibu.us-east-1.elasticbeanstalk.com"
-    : "http://localhost:5000";
+const BASE_URL = "http://18.234.195.214:5000/";
 
 
 //Hits the Login endpoint
