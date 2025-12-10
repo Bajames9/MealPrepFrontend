@@ -125,14 +125,14 @@ function RecipeSubmissionForm() {
         const formData = new FormData();
         formData.append("file", file);
 
-        const res = await fetch("http://localhost:5000/api/user_recipes/upload_image", {
+        const res = await fetch("http://flask-api-env.eba-pvremibu.us-east-1.elasticbeanstalk.com//api/user_recipes/upload_image", {
             method: "POST",
             body: formData
         });
 
         const data = await res.json();
         if (data.success) {
-            setSelectedImage(`http://localhost:5000${data.url}`);
+            setSelectedImage(`http://flask-api-env.eba-pvremibu.us-east-1.elasticbeanstalk.com/${data.url}`);
         }
         else {
             alert("Failed to upload image: " + data.message);
