@@ -56,7 +56,7 @@ function Pantry() {
             }
             try {
                 const response = await fetch(
-                    `http://localhost:5000/api/pantry/search/ingredients?q=${encodeURIComponent(ingredientName)}&per_page=10`
+                    `http://flask-api-env.eba-pvremibu.us-east-1.elasticbeanstalk.com/api/pantry/search/ingredients?q=${encodeURIComponent(ingredientName)}&per_page=10`
                 );
 
                 // Ensure response is OK
